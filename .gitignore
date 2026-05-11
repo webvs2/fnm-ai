@@ -1,0 +1,10 @@
+node_modules/
+.ci/screen_recording
+/benchmarks/results
+/target
+**/*.rs.bk
+feature_tests/.tmp
+*.log
+/site/public
+.vercel
+.proxy

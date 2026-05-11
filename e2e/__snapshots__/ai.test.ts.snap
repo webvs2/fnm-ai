@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bash manages versions with natural language: Bash 1`] = `
+"set -e
+eval "$(fnm env)"
+fnm ai 'please install node v8.11.3 and use it'
+if [ "$(node --version)" != "v8.11.3" ]; then
+  echo "Expected node version to be v8.11.3. Got $(node --version)"
+  exit 1
+fi
+(fnm ai 'what version am I using') | grep v8.11.3 || (echo "Expected output to contain v8.11.3" && exit 1)
+(fnm ai 'show installed versions') | grep v8.11.3 || (echo "Expected output to contain v8.11.3" && exit 1)
+(fnm api 'check current environment config') | grep 'current version' || (echo "Expected output to contain 'current version'" && exit 1)"
+`;
+
+exports[`Fish manages versions with natural language: Fish 1`] = `
+"fnm env | source
+fnm ai 'please install node v8.11.3 and use it'
+set ____test____ (node --version)
+if test "$____test____" != "v8.11.3"
+  echo "Expected node version to be v8.11.3. Got $____test____"
+  exit 1
+end
+begin; fnm ai 'what version am I using'; end | grep v8.11.3; or echo "Expected output to contain v8.11.3" && exit 1
+begin; fnm ai 'show installed versions'; end | grep v8.11.3; or echo "Expected output to contain v8.11.3" && exit 1
+begin; fnm api 'check current environment config'; end | grep 'current version'; or echo "Expected output to contain 'current version'" && exit 1"
+`;
+
+exports[`PowerShell manages versions with natural language: PowerShell 1`] = `
+"$ErrorActionPreference = "Stop"
+fnm env | Out-String | Invoke-Expression
+fnm ai 'please install node v8.11.3 and use it'
+if ( "$(node --version)" -ne "v8.11.3" ) { echo "Expected node version to be v8.11.3. Got $(node --version)"; exit 1 }
+$($__out__ = $(fnm ai 'what version am I using' | Select-String v8.11.3); if ($__out__ -eq $null) { exit 1 } else { $__out__ })
+$($__out__ = $(fnm ai 'show installed versions' | Select-String v8.11.3); if ($__out__ -eq $null) { exit 1 } else { $__out__ })
+$($__out__ = $(fnm api 'check current environment config' | Select-String 'current version'); if ($__out__ -eq $null) { exit 1 } else { $__out__ })"
+`;
+
+exports[`Zsh manages versions with natural language: Zsh 1`] = `
+"set -e
+eval "$(fnm env)"
+fnm ai 'please install node v8.11.3 and use it'
+if [ "$(node --version)" != "v8.11.3" ]; then
+  echo "Expected node version to be v8.11.3. Got $(node --version)"
+  exit 1
+fi
+(fnm ai 'what version am I using') | grep v8.11.3 || (echo "Expected output to contain v8.11.3" && exit 1)
+(fnm ai 'show installed versions') | grep v8.11.3 || (echo "Expected output to contain v8.11.3" && exit 1)
+(fnm api 'check current environment config') | grep 'current version' || (echo "Expected output to contain 'current version'" && exit 1)"
+`;
