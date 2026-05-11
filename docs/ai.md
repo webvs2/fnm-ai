@@ -5,7 +5,7 @@
 ## Install
 
 ```powershell
-npm install -g @fnm/ai
+npm install -g fnm-ai
 ```
 
 This installs two npm executables:

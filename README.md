@@ -31,7 +31,7 @@
 安装：
 
 ```powershell
-npm install -g @fnm/ai
+npm install -g fnm-ai
 ```
 
 配置 Kimi：
