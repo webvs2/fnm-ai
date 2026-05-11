@@ -1,5 +1,5 @@
 {
-  "name": "@fnm/ai",
+  "name": "fnm-ai",
   "version": "1.0.0",
   "description": "Natural-language assistant for fnm Node.js version management",
   "private": false,
