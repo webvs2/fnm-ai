@@ -31,7 +31,7 @@
   "scripts": {
     "prepack": "cargo build --release",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest",
-    "version:prepare": "changeset version && ./.ci/prepare-version.js",
+    "version:prepare": "changeset version && node ./.ci/prepare-version.js",
     "generate-command-docs": "./.ci/print-command-docs.js"
   },
   "changelog": {
