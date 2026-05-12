@@ -1,5 +1,41 @@
 ## 1.31.0 (2022-02-16)
 
+## 1.1.0
+
+### Minor Changes
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - Initial Windows release of `fnm-ai`, with `fnm ai`/`fnm api` and npm `fnm-ai`/`fnm-api` entrypoints for natural-language Node.js version management.
+
+  `fnm-api` can save an OpenAI-compatible base URL and API key, defaults to Kimi `kimi-k2.6`, and bootstraps missing fnm environment variables for its child process by running `fnm env --json`.
+
+  Examples:
+
+  ```sh-session
+  $ fnm-api config set --base-url https://api.moonshot.ai/v1 --api-key <your-kimi-api-key>
+  $ fnm-api "install node 20 and use it"
+  $ fnm-api "检查当前环境配置"
+  ```
+
+### Patch Changes
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - support `x64-glibc-217` arch by adding a `--arch x64-glibc-217` to fnm env
+
+- [`80135c9`](https://github.com/webvs2/fnm-ai/commit/80135c9abb1ec4c1939aa0f514349cba24fcc369) Thanks [@webvs2](https://github.com/webvs2)! - Correct release metadata to use the `webvs2/fnm-ai` GitHub repository for changelog generation.
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - prefer explicit shell flags in installer-generated shell setup and fix ARM installer CI platform selection
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - Clarify the interactive `fnm use` missing-version prompt by prefixing the message with `fnm` so it is obvious which tool is asking to install Node.
+
+- [`8b6fd5a`](https://github.com/webvs2/fnm-ai/commit/8b6fd5a743ec581cd0a27296d60fff0f49f53281) Thanks [@webvs2](https://github.com/webvs2)! - Run release helper scripts through explicit Node.js and Bash interpreters, and mark recording scripts executable in CI, so release preparation does not depend on local file permissions.
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - Document contributor guidance for e2e tests and changesets in `AGENTS.md`.
+
+- [`94b6d5b`](https://github.com/webvs2/fnm-ai/commit/94b6d5b8c3bd84beac20f2ab377dbd8a76d5b076) Thanks [@webvs2](https://github.com/webvs2)! - Improve documentation for fnm-ai usage and fix GitHub workflow configuration issues.
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - Add random number to multishell symlinks to avoid clashing
+
+- [`613df42`](https://github.com/webvs2/fnm-ai/commit/613df42dc1194aef202c656b486de06109ec26bc) Thanks [@webvs2](https://github.com/webvs2)! - feat: add possible values to the arch help docs.
+
 ## 1.39.0
 
 ### Minor Changes
