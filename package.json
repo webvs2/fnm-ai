@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Natural-language assistant for fnm Node.js version management",
   "private": false,
-  "repository": "git@github.com:Schniz/fnm.git",
+  "repository": "git@github.com:webvs2/fnm-ai.git",
   "author": "Gal Schlezinger <gal@spitfire.co.il>",
   "type": "module",
   "packageManager": "pnpm@9.1.4",
@@ -35,7 +35,7 @@
     "generate-command-docs": "./.ci/print-command-docs.js"
   },
   "changelog": {
-    "repo": "Schniz/fnm",
+    "repo": "webvs2/fnm-ai",
     "labels": {
       "PR: New Feature": "New Feature 🎉",
       "PR: Bugfix": "Bugfix 🐛",
