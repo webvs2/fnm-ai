@@ -7,7 +7,7 @@ on:
       - master
 
 concurrency:
-  group: ci-${{ github.head_ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: hecrj/setup-rust-action@v2
@@ -127,7 +127,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> "$GITHUB_OUTPUT"
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -162,7 +162,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> "$env:GITHUB_OUTPUT"
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -198,7 +198,7 @@ jobs:
   #   - name: Get pnpm store directory
   #     id: pnpm-cache
   #     run: |
-  #       echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+  #       echo "pnpm_cache_dir=$(pnpm store path)" >> "$env:GITHUB_OUTPUT"
   #   - uses: actions/cache@v3
   #     name: Setup pnpm cache
   #     with:
@@ -234,7 +234,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> "$GITHUB_OUTPUT"
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -362,7 +362,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> "$GITHUB_OUTPUT"
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -407,7 +407,7 @@ jobs:
       #     - name: Get pnpm store directory
       #       id: pnpm-cache
       #       run: |
-      #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      #         echo "pnpm_cache_dir=$(pnpm store path)" >> "$GITHUB_OUTPUT"
       #     - uses: actions/cache@v3
       #       name: Setup pnpm cache
       #       with:

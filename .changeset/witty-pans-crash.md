@@ -1,5 +1,5 @@
 ---
-"fnm": patch
+"fnm-ai": patch
 ---
 
 feat: add possible values to the arch help docs.

@@ -3,11 +3,18 @@ on:
   pull_request:
     paths:
       - .ci/install.sh
+      - .ci/test_installation_script.sh
+      - .ci/get_shell_profile.sh
+      - .github/workflows/installation_script.yml
   push:
     branches:
       - master
+      - main
     paths:
       - .ci/install.sh
+      - .ci/test_installation_script.sh
+      - .ci/get_shell_profile.sh
+      - .github/workflows/installation_script.yml
 
 jobs:
   test_against_latest_release_arm:
@@ -79,6 +86,7 @@ jobs:
           fi
 
           if [ -f ~/.zshrc ]; then
+            cp ~/.zshrc ~/.zshrc.bak
             echo 'echo hello world' > ~/.zshrc
             echo '. ~/.zshrc.bak' >> ~/.zshrc
           fi

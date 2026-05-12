@@ -1,19 +1,18 @@
-# @fnm/ai
+# fnm-ai
 
-`@fnm/ai` 是一个面向 Windows 的 Node.js 版本管理工具。它基于 fnm，但把主要交互方式从命令行参数升级为自然语言对话：你可以直接说“帮我切换到 Node 20”“检查当前环境配置”“安装最新 LTS 并使用它”。
+`fnm-ai` 是一个 Windows 优先的 Node.js 版本管理工具。它基于 [fnm](https://github.com/Schniz/fnm) 的快速版本切换能力，并增加了自然语言入口：你可以直接说“帮我切换到 Node 20”“安装最新 LTS 并使用它”“检查当前环境配置”。
 
-当前项目从 `1.0.0` 开始发布，npm 包名为 `@fnm/ai`。
+这个仓库同时包含底层 `fnm` Rust 二进制和 npm wrapper。npm 包当前发布名是 `fnm-ai`，安装后提供 `fnm-api` 和 `fnm-ai` 两个可执行命令。
 
-## 核心能力
+## 特性
 
-- 使用自然语言管理 Node.js 版本：安装、切换、查看当前版本、列出版本、设置默认版本、卸载版本。
-- 默认使用 Kimi 模型 `kimi-k2.6`，只需要配置 OpenAI-compatible `baseUrl` 和 API key。
-- npm 安装后提供 `fnm-api` 和 `fnm-ai` 两个可执行命令。
-- 内置两个交互预设：先切换环境、检查当前环境配置。
-- npm wrapper 会在缺少 fnm 环境变量时自动执行 `fnm env --json`，让当前子进程获得可用的 `FNM_*` 和 `PATH`。
-- AI 输出只会被映射到固定的 fnm 动作，不会执行模型返回的任意 shell 命令。
+- 用中文或英文管理 Node.js 版本：安装、切换、列出、查看当前版本、设置默认版本、卸载。
+- 默认使用 Kimi `kimi-k2.6`，通过 OpenAI-compatible `chat/completions` 接口调用模型。
+- `fnm-api` 会读取本地配置，并在缺少 fnm 环境变量时自动执行 `fnm env --json` 初始化子进程环境。
+- 交互模式内置两个常用预设：切换当前项目环境、检查当前环境配置。
+- AI 输出只会映射到固定 fnm 动作，不会执行模型返回的任意 shell 命令。
 
-## 当前支持范围
+## 支持范围
 
 当前 npm 包面向 Windows x64：
 
@@ -24,14 +23,35 @@
 }
 ```
 
-后续可以再扩展为通用 npm 包。当前 README 以 Windows PowerShell 使用方式为主。
+README 中的示例默认使用 Windows PowerShell。
 
-## 快速开始
-
-安装：
+## 安装
 
 ```powershell
 npm install -g fnm-ai
+```
+
+安装后推荐使用 `fnm-api`：
+
+```powershell
+fnm-api "检查当前环境配置"
+```
+
+`fnm-ai` 是同一个 npm wrapper 的别名。底层 Rust 二进制也提供 `fnm ai` 和 `fnm api`：
+
+```powershell
+fnm ai "帮我切换到 Node 20"
+fnm api "检查当前环境配置"
+```
+
+普通 npm 安装场景建议优先使用 `fnm-api`，因为它会自动读取 AI 配置并补齐常见的 fnm 子进程环境。
+
+## 配置 AI Provider
+
+默认模型是：
+
+```text
+kimi-k2.6
 ```
 
 配置 Kimi：
@@ -40,62 +60,7 @@ npm install -g fnm-ai
 fnm-api config set --base-url https://api.moonshot.ai/v1 --api-key <your-kimi-api-key>
 ```
 
-开始使用：
-
-```powershell
-fnm-api "帮我切换到 Node 20"
-fnm-api "安装最新 LTS，并切换过去"
-fnm-api "检查当前环境配置"
-fnm-api "列出已安装的 Node 版本"
-```
-
-启动交互模式：
-
-```powershell
-fnm-api
-```
-
-## 命令名称说明
-
-npm 包名是 `@fnm/ai`，但安装后的可执行命令是：
-
-```powershell
-fnm-api
-fnm-ai
-```
-
-`@fnm/api` 这种带 slash 的名字更适合作为 npm 包名或包 specifier，不适合作为跨平台 shell 命令。npm 在 Windows 上生成 bin shim 时也不会把它稳定暴露成 `@fnm/api` 这种命令形态，所以这里使用 `fnm-api` 作为推荐入口。
-
-如果你直接使用底层 fnm 二进制，也可以使用：
-
-```powershell
-fnm ai "帮我切换到 Node 20"
-fnm api "检查当前环境配置"
-```
-
-推荐普通用户使用 `fnm-api`，因为它会自动读取 `@fnm/ai` 配置文件，并处理 npm 场景下常见的环境变量缺失问题。
-
-## AI 配置
-
-默认模型是 Kimi：
-
-```text
-kimi-k2.6
-```
-
-默认推荐 base URL：
-
-```text
-https://api.moonshot.ai/v1
-```
-
-保存配置：
-
-```powershell
-fnm-api config set --base-url https://api.moonshot.ai/v1 --api-key <your-kimi-api-key>
-```
-
-指定其他模型：
+如果要显式指定模型：
 
 ```powershell
 fnm-api config set --base-url https://api.moonshot.ai/v1 --api-key <your-kimi-api-key> --model kimi-k2.6
@@ -124,15 +89,13 @@ fnm-api config get
 fnm-api config path
 ```
 
-Windows 默认配置文件位置通常是：
+Windows 默认位置通常是：
 
 ```text
 %APPDATA%\fnm-ai\config.json
 ```
 
-## 环境变量覆盖
-
-你也可以不用配置文件，直接用环境变量：
+也可以用环境变量覆盖配置文件：
 
 ```powershell
 $env:FNM_AI_BASE_URL = "https://api.moonshot.ai/v1"
@@ -142,13 +105,11 @@ $env:FNM_AI_MODEL = "kimi-k2.6"
 
 环境变量优先级高于配置文件：
 
-- `FNM_AI_BASE_URL` 覆盖配置里的 `baseUrl`
-- `FNM_AI_API_KEY` 覆盖配置里的 `apiKey`
-- `FNM_AI_MODEL` 覆盖配置里的 `model`
+- `FNM_AI_BASE_URL` 覆盖 `baseUrl`
+- `FNM_AI_API_KEY` 覆盖 `apiKey`
+- `FNM_AI_MODEL` 覆盖 `model`
 
-如果未设置 `FNM_AI_MODEL`，`fnm-api` 会默认使用 `kimi-k2.6`。
-
-## 自然语言示例
+## 快速使用
 
 安装并切换：
 
@@ -157,14 +118,14 @@ fnm-api "安装 Node 20 并马上使用"
 fnm-api "install node 20 and use it"
 ```
 
-只切换版本：
+切换版本，缺失时自动安装：
 
 ```powershell
-fnm-api "切换到 Node 18"
 fnm-api "use node 22, install it if missing"
+fnm-api "切换到 Node 18"
 ```
 
-查看当前状态：
+查看当前版本：
 
 ```powershell
 fnm-api "现在用的是哪个 Node 版本"
@@ -190,15 +151,15 @@ fnm-api "把 Node 20 设置成默认版本"
 fnm-api "卸载 Node 16"
 ```
 
-## 交互模式和两个预设
+## 交互模式
 
-运行：
+不带参数运行会进入交互模式：
 
 ```powershell
 fnm-api
 ```
 
-会进入交互模式：
+启动后会看到两个预设：
 
 ```text
 fnm ai is ready.
@@ -207,81 +168,69 @@ Presets:
   2. check current environment config
 ```
 
-预设 `1`：切换环境。
+预设 `1` 会根据当前目录的 `.node-version`、`.nvmrc`、`package.json engines.node` 或默认版本切换环境。
 
-它会根据当前目录的 `.node-version`、`.nvmrc` 或默认版本执行切换，等价于用自然语言说“先切换环境”。
+预设 `2` 会打印 fnm 目录、Node 镜像、架构、版本文件策略、corepack、resolve engines、multishell 路径、PATH 状态和当前 Node 版本。
 
-预设 `2`：检查当前环境配置。
-
-它会输出 fnm 目录、Node 镜像、架构、版本文件策略、corepack、resolve engines、`FNM_MULTISHELL_PATH`、multishell 是否在 `PATH` 中，以及当前 Node 版本。
-
-你也可以直接说：
+也可以直接说：
 
 ```powershell
 fnm-api "先切换环境"
 fnm-api "检查当前环境配置"
 ```
 
-## 环境变量如何被加载
+## PowerShell 环境说明
 
-fnm 切换 Node 版本依赖这些运行时环境：
+fnm 切换 Node 版本依赖运行时环境变量和 PATH，例如：
 
 - `FNM_MULTISHELL_PATH`
 - `FNM_DIR`
 - `FNM_VERSION_FILE_STRATEGY`
-- `FNM_LOGLEVEL`
 - `FNM_NODE_DIST_MIRROR`
 - `FNM_COREPACK_ENABLED`
 - `FNM_RESOLVE_ENGINES`
 - `FNM_ARCH`
 - `PATH`
 
-传统 fnm 需要你在 shell profile 中执行：
+传统 fnm 用法需要在 shell profile 中加载：
 
 ```powershell
 fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 ```
 
-`@fnm/ai` 的 npm wrapper 做了一层改进：
+`fnm-api` 的 npm wrapper 会在启动时做额外初始化：
 
-1. 启动时读取 `%APPDATA%\fnm-ai\config.json`。
+1. 读取 `%APPDATA%\fnm-ai\config.json`。
 2. 把 `baseUrl`、`apiKey`、`model` 转成 `FNM_AI_BASE_URL`、`FNM_AI_API_KEY`、`FNM_AI_MODEL`。
 3. 如果缺少 `FNM_MULTISHELL_PATH`，自动执行 `fnm env --json`。
-4. 合并 `fnm env --json` 返回的 `FNM_*`。
-5. 把 multishell 路径追加到子进程 `PATH` 前面。
-6. 再启动真正的 `fnm ai`。
+4. 合并 `fnm env --json` 返回的 `FNM_*` 变量。
+5. 把 multishell 路径加入子进程 `PATH`。
+6. 启动真正的 `fnm ai`。
 
-这意味着即使你的当前 PowerShell 没有提前加载 `fnm env`，下面的命令也能在 `fnm-api` 子进程里看到完整环境：
+因此，即使当前 PowerShell 没有提前加载 `fnm env`，下面的命令也能在 `fnm-api` 子进程里看到完整 fnm 环境：
 
 ```powershell
 fnm-api "检查当前环境配置"
 ```
 
-## 重要限制：不能永久修改父 shell
+需要注意的是，Windows、PowerShell 和 Node.js 子进程都有同一个限制：子进程不能永久修改已经运行中的父终端环境变量。
 
-Windows、PowerShell 和 Node.js 子进程都有同一个限制：子进程不能永久修改已经运行中的父终端环境变量。
+这意味着：
 
-因此：
+- `fnm-api` 可以为自己的子进程补齐 `FNM_*` 和 `PATH`。
+- `fnm-api` 可以更新 fnm 的 multishell 链接，让 fnm 知道应该使用哪个 Node 版本。
+- `fnm-api` 退出后，父 PowerShell 中已经存在的 `PATH` 不一定会自动刷新。
 
-- `fnm-api` 可以为自己的子进程自动补齐 `FNM_*` 和 `PATH`。
-- `fnm-api` 可以更新 fnm 的 multishell 链接，让 fnm 知道当前应该使用哪个 Node 版本。
-- 但 `fnm-api` 退出后，父 PowerShell 里已经存在的 `PATH` 不一定会自动刷新。
-
-如果你希望在 `fnm-api "切换到 Node 20"` 之后，当前 PowerShell 里的 `node -v` 也马上稳定使用该版本，请把下面这行加入 PowerShell profile：
+如果你希望 `fnm-api "切换到 Node 20"` 之后，当前 PowerShell 里的 `node -v` 也马上稳定使用该版本，请把下面这行加入 PowerShell profile：
 
 ```powershell
 fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 ```
 
-创建 profile 文件：
+创建并打开 profile：
 
 ```powershell
 if (-not (Test-Path $profile)) { New-Item $profile -Force }
-```
-
-打开 profile 文件：
-
-```powershell
 Invoke-Item $profile
 ```
 
@@ -289,7 +238,7 @@ Invoke-Item $profile
 
 ## 安全模型
 
-AI provider 只负责把自然语言翻译成固定 JSON 动作。工具只接受以下动作：
+AI provider 只负责把自然语言请求翻译成固定 JSON 动作。当前允许的动作是：
 
 ```text
 help
@@ -305,13 +254,7 @@ default
 uninstall
 ```
 
-模型不能返回任意 shell 命令并让工具执行。
-
-当前本地解析器能识别常见中英文请求；当本地解析器不理解请求，并且已经配置了 `FNM_AI_BASE_URL` 与 `FNM_AI_API_KEY`，才会调用 OpenAI-compatible chat/completions 接口。
-
-## 底层 fnm 命令
-
-自然语言请求最终会映射到 fnm 的稳定能力：
+模型不能返回任意 shell 命令并让工具执行。自然语言请求最终会映射到这些 fnm 能力：
 
 - `fnm install`
 - `fnm use`
@@ -322,11 +265,12 @@ uninstall
 - `fnm uninstall`
 - `fnm env`
 
-完整底层命令文档仍可参考：
+## 文档
 
 - [命令列表](./docs/commands.md)
 - [AI 使用说明](./docs/ai.md)
 - [fnm 配置项](./docs/configuration.md)
+- [nightly 说明](./docs/nightly.md)
 
 ## 开发
 
@@ -374,3 +318,7 @@ npm pack --dry-run
 - `cargo test ai::tests` 通过。
 - 相关 e2e 测试通过。
 - `.changeset/` 中包含本次变更说明。
+
+## License
+
+GPL-3.0

@@ -1,26 +1,37 @@
 # Working with Node nightly builds
 
-fnm doesn't give you any shorthands to install nightly builds, but you can
-do that by manually passing a "dist mirror" with the `--node-dist-mirror` flag. 
+fnm does not provide a shorthand for nightly builds. Use the
+`--node-dist-mirror` flag to point fnm at the Node.js nightly distribution
+mirror.
 
-## Example usage
+## List available nightly versions
 
-Here's an example of installing Node 23.
+```sh-session
+$ fnm --node-dist-mirror https://nodejs.org/download/nightly/ ls-remote
+```
 
-To get a list of available versions run this:
+## Install and use a nightly build
 
-    fnm --node-dist-mirror https://nodejs.org/download/nightly/ ls-remote
+You can ask fnm to resolve a major version from the nightly mirror:
 
-To use and install nightly version run this:
+```sh-session
+$ fnm --node-dist-mirror https://nodejs.org/download/nightly/ use 23 --install-if-missing
+```
 
-    fnm --node-dist-mirror https://nodejs.org/download/nightly/ use 23
-    # or
-    fnm --node-dist-mirror https://nodejs.org/download/nightly/ use v23.0.0-nightly202407253de7a4c374
+Or pass an exact nightly version from `ls-remote`:
 
-Once you installed it you would be able to see that version in you list:
+```sh-session
+$ fnm --node-dist-mirror https://nodejs.org/download/nightly/ use v23.0.0-nightly202407253de7a4c374 --install-if-missing
+```
 
-    fnm ls
+After the version is installed, it appears in the local version list:
 
-And use it without providing `--node-dist-mirror` flag:
+```sh-session
+$ fnm ls
+```
 
-    fnm use 23
+You can then use it without passing `--node-dist-mirror` again:
+
+```sh-session
+$ fnm use 23
+```

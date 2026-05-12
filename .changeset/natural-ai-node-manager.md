@@ -1,8 +1,8 @@
 ---
-"@fnm/ai": minor
+"fnm-ai": minor
 ---
 
-Initial Windows release of `@fnm/ai`, with `fnm ai`/`fnm api` and npm `fnm-ai`/`fnm-api` entrypoints for natural-language Node.js version management.
+Initial Windows release of `fnm-ai`, with `fnm ai`/`fnm api` and npm `fnm-ai`/`fnm-api` entrypoints for natural-language Node.js version management.
 
 `fnm-api` can save an OpenAI-compatible base URL and API key, defaults to Kimi `kimi-k2.6`, and bootstraps missing fnm environment variables for its child process by running `fnm env --json`.
 

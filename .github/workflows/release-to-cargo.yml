@@ -2,7 +2,7 @@ name: release to cargo
 on:
   workflow_dispatch:
   push:
-    tags: ['*']
+    tags: ["*"]
 jobs:
   publish_to_crates_io:
     runs-on: ubuntu-latest
@@ -11,7 +11,7 @@ jobs:
       # set up
       - uses: actions/checkout@v4
 
-      - uses: hecrj/setup-rust-action@v1
+      - uses: hecrj/setup-rust-action@v2
         with:
           rust-version: stable
 

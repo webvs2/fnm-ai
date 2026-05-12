@@ -31,4 +31,4 @@ E2E tests validate real-shell user behavior (`fnm env`, `fnm use`, PATH updates,
 Every code change requires a changeset in <repo_root>/.changeset/some-random-name.md
 We should avoid breaking changes. Therefore 99.9% of changesets should be "patch" or "minor".
 Be concise and clear in the changeset title, and provide examples or links to related issues if necessary.
-See ./.changeset/EXAMPLE.md for an example of a changeset format.
+See ./.changeset/README.md for an example of a changeset format.

@@ -1,5 +1,5 @@
 ---
-"fnm": patch
+"fnm-ai": patch
 ---
 
 Add random number to multishell symlinks to avoid clashing
