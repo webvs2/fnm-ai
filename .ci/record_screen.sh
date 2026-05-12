@@ -21,7 +21,7 @@ RECORDING_PATH=$DIRECTORY/screen_recording
 (rm -rf "$RECORDING_PATH" &> /dev/null || true)
 
 asciinema rec \
-  --command "$DIRECTORY/recorded_screen_script.sh" \
+  --command "bash $DIRECTORY/recorded_screen_script.sh" \
   --cols 70 \
   --rows 17 \
   "$RECORDING_PATH"

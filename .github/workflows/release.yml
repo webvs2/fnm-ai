@@ -18,6 +18,9 @@ jobs:
       # set up
       - uses: actions/checkout@v4
 
+      - name: Make scripts executable
+        run: chmod +x ./.ci/record_screen.sh
+
       - uses: hecrj/setup-rust-action@v2
         with:
           rust-version: stable

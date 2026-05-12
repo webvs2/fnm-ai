@@ -18,7 +18,7 @@ const command = cmd.command({
     updateCargoToml(await getPackageVersion())
     exec("cargo build --release")
     exec("pnpm generate-command-docs --binary-path=./target/release/fnm")
-    exec("./.ci/record_screen.sh")
+    exec("bash ./.ci/record_screen.sh")
   },
 })
 

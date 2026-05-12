@@ -2,4 +2,4 @@
 "fnm-ai": patch
 ---
 
-Run the release preparation script through Node.js so CI does not depend on executable file permissions.
+Run release helper scripts through explicit Node.js and Bash interpreters, and mark recording scripts executable in CI, so release preparation does not depend on local file permissions.

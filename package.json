@@ -32,7 +32,7 @@
     "prepack": "cargo build --release",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest",
     "version:prepare": "changeset version && node ./.ci/prepare-version.js",
-    "generate-command-docs": "./.ci/print-command-docs.js"
+    "generate-command-docs": "node ./.ci/print-command-docs.js"
   },
   "changelog": {
     "repo": "webvs2/fnm-ai",
